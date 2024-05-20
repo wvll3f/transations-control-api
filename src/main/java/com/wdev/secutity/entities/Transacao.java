@@ -1,5 +1,6 @@
 package com.wdev.secutity.entities;
 
+import com.wdev.secutity.dtos.BalanceDTO;
 import com.wdev.secutity.dtos.CreateTransDTO;
 import com.wdev.secutity.enums.TipoTransacao;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class Transacao {
     private User user;
 
     private BigDecimal price;
+
 
     private String category;
 
@@ -76,7 +78,7 @@ public class Transacao {
         this.type = type;
     }
 
-    public CreateTransDTO modelToDTO(Transacao transacao){
+    public CreateTransDTO modelToDTO(Transacao transacao) {
         var dto = new CreateTransDTO();
 
         dto.setId(transacao.getId());
@@ -85,6 +87,15 @@ public class Transacao {
         dto.setCategory(transacao.getCategory());
         dto.setType(transacao.getType());
         dto.setUser(transacao.getUser().getId());
+
+        return dto;
+    }
+
+    public BalanceDTO toBalanceDTO(Transacao transacao) {
+        var dto = new BalanceDTO();
+
+        dto.setBalance(transacao.getPrice());
+        dto.setType(transacao.getType());
 
         return dto;
     }

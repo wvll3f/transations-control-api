@@ -1,9 +1,11 @@
 package com.wdev.secutity.controllers;
 
+import com.wdev.secutity.dtos.BalanceDTO;
 import com.wdev.secutity.dtos.CreateTransDTO;
 import com.wdev.secutity.entities.Transacao;
 import com.wdev.secutity.repositories.TransacaoRepository;
 import com.wdev.secutity.repositories.UserRepository;
+import com.wdev.secutity.services.BalanceService;
 import com.wdev.secutity.services.TransacaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @RestController
 public class TransacaoController {
@@ -20,12 +26,14 @@ public class TransacaoController {
     private final TransacaoService transacaoService;
     private final UserRepository userRepository;
     private final TransacaoRepository transacaoRepository;
+    private final BalanceService balanceService;
 
 
-    public TransacaoController(TransacaoService transacaoService, UserRepository userRepository, TransacaoRepository transacaoRepository) {
+    public TransacaoController(TransacaoService transacaoService, UserRepository userRepository, TransacaoRepository transacaoRepository, BalanceService balanceService) {
         this.transacaoService = transacaoService;
         this.userRepository = userRepository;
         this.transacaoRepository = transacaoRepository;
+        this.balanceService = balanceService;
     }
 
     @Transactional
@@ -104,7 +112,7 @@ public class TransacaoController {
 
     @Transactional
     @GetMapping("/trans")
-    public ResponseEntity listarTransacoes(JwtAuthenticationToken token) {
+    public ResponseEntity<List<CreateTransDTO>> listarTransacoes(JwtAuthenticationToken token) {
 
         var user = userRepository.findById(UUID.fromString(token.getName()));
 
@@ -135,4 +143,12 @@ public class TransacaoController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/balance")
+    public ResponseEntity<Double>  pegarBalance(JwtAuthenticationToken token){
+
+        return balanceService.generateBalance(token);
+
+    }
+
 }

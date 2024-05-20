@@ -77,8 +77,6 @@ public class User {
 
     @Bean
     public Boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder){
-
         return passwordEncoder.matches(loginRequest.password(), this.password);
-
     }
 }

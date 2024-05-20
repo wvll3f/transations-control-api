@@ -1,6 +1,7 @@
 package com.wdev.secutity.controllers;
 
 import com.wdev.secutity.dtos.CreateUserDTO;
+import com.wdev.secutity.dtos.UserDTO;
 import com.wdev.secutity.entities.Role;
 import com.wdev.secutity.entities.User;
 import com.wdev.secutity.repositories.RoleRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -58,5 +63,21 @@ public class UserController {
     public ResponseEntity<List<User>> listarUsers() throws Exception {
         var users = userRepository.findAll();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserDTO> pegaUsuario(JwtAuthenticationToken token) throws Exception {
+
+        var existenceUser = userRepository.findById(UUID.fromString(token.getName()));
+        var user = new UserDTO();
+
+        user.setUsername(existenceUser.get().getUsername());
+        user.setRoles(existenceUser.get()
+                .getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(" ")).toString());
+
+        return ResponseEntity.ok(user);
     }
 }

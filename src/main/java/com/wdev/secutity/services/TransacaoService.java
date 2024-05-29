@@ -108,8 +108,18 @@ public class TransacaoService {
 
 
     @Transactional
-    public void deletarTransacao(Long id) {
-        transacaoRepository.deleteById(id);
+    public ResponseEntity<Void> deleteTransacao(@PathVariable("id") Long transId, JwtAuthenticationToken token) {
+
+        var transacao = transacaoRepository.findById(transId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (transacao.getUser().getId().equals(UUID.fromString(token.getName()))) {
+            transacaoRepository.deleteById(transId);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 }

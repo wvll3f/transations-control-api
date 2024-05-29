@@ -3,6 +3,7 @@ package com.wdev.secutity.dtos;
 import com.wdev.secutity.enums.TipoTransacao;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 public class CreateTransDTO {
@@ -12,19 +13,29 @@ public class CreateTransDTO {
     private BigDecimal price;
     private String category;
     private TipoTransacao type;
+    private Instant createTimeStamp;
     private UUID user;
 
     public CreateTransDTO(){
 
     }
 
-    public CreateTransDTO(Long id, String description, BigDecimal price, String category, TipoTransacao type, UUID user) {
+    public CreateTransDTO(Long id, String description, BigDecimal price, String category, TipoTransacao type,Instant createTimeStamp, UUID user) {
         this.id=id;
         this.description = description;
         this.price = price;
         this.category = category;
         this.type = type;
+        this.createTimeStamp = createTimeStamp;
         this.user = user;
+    }
+
+    public Instant getCreateTimeStamp() {
+        return createTimeStamp;
+    }
+
+    public void setCreateTimeStamp(Instant createTimeStamp) {
+        this.createTimeStamp = createTimeStamp;
     }
 
     public String getDescription() {

@@ -4,9 +4,11 @@ import com.wdev.secutity.dtos.BalanceDTO;
 import com.wdev.secutity.dtos.CreateTransDTO;
 import com.wdev.secutity.enums.TipoTransacao;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Entity
 @DynamicUpdate
@@ -25,10 +27,20 @@ public class Transacao {
 
     private BigDecimal price;
 
-
     private String category;
 
     private TipoTransacao type;
+
+    @CreationTimestamp
+    private Instant createTimeStamp;
+
+    public Instant getCreateTimeStamp() {
+        return createTimeStamp;
+    }
+
+    public void setCreateTimeStamp(Instant createTimeStamp) {
+        this.createTimeStamp = createTimeStamp;
+    }
 
     public Long getId() {
         return id;
@@ -86,6 +98,7 @@ public class Transacao {
         dto.setPrice(transacao.getPrice());
         dto.setCategory(transacao.getCategory());
         dto.setType(transacao.getType());
+        dto.setCreateTimeStamp(transacao.getCreateTimeStamp());
         dto.setUser(transacao.getUser().getId());
 
         return dto;

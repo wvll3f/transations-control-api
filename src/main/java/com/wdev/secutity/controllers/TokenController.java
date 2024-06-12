@@ -42,7 +42,7 @@ public class TokenController {
         }
 
         var now = Instant.now();
-        var expiresIn = 60L;
+        var expiresIn = 3600L;
 
         var scopes = user.get().getRoles()
                 .stream()

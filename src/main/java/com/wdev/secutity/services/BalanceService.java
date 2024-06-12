@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class BalanceService {
                 .map(transacao -> transacao.toBalanceDTO(transacao))
                 .filter(balanceDTO -> balanceDTO.getType().getCodigo().equals("E"))
                 .map(balanceDTO -> balanceDTO.getBalance())
-                .collect(Collectors.summingDouble(value -> value.intValue()));
+                .collect(Collectors.summingDouble(BigDecimal::doubleValue));
 
         var valoresSaida = transacaoRepository.findAll()
                 .stream()
@@ -38,7 +39,7 @@ public class BalanceService {
                 .map(transacao -> transacao.toBalanceDTO(transacao))
                 .filter(balanceDTO -> balanceDTO.getType().getCodigo().equals("S"))
                 .map(balanceDTO -> balanceDTO.getBalance())
-                .collect(Collectors.summingDouble(value -> value.intValue()));
+                .collect(Collectors.summingDouble(BigDecimal::doubleValue));
 
         double total = valoresEntrada - valoresSaida;
 

@@ -2,11 +2,11 @@ package com.wdev.secutity.entities;
 
 import com.wdev.secutity.dtos.LoginRequest;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
@@ -20,10 +20,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private String name;
+    
+    @NotNull
     private String username;
 
+    @NotNull
     private String password;
 
+    @NotNull
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_users_roles",
@@ -41,6 +46,14 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {

@@ -4,6 +4,7 @@ import com.wdev.secutity.dtos.BalanceDTO;
 import com.wdev.secutity.dtos.CreateTransDTO;
 import com.wdev.secutity.enums.TipoTransacao;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -15,24 +16,47 @@ import java.time.Instant;
 @Table(name = "tb_transacoes")
 public class Transacao {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     private BigDecimal price;
 
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Categoria category;
 
+    @ManyToOne
+    @JoinColumn(name = "metodosPagamento_id")
+    private MetodosPagamento metodoPagamento;
+
+    @NotNull
     private TipoTransacao type;
 
     @CreationTimestamp
     private Instant createTimeStamp;
+
+    public Transacao() {
+    }
+
+    public Transacao(Long id, String description, User user, BigDecimal price, Categoria category, TipoTransacao type, Instant createTimeStamp, MetodosPagamento metodoPagamento) {
+        this.id = id;
+        this.description = description;
+        this.user = user;
+        this.price = price;
+        this.category = category;
+        this.type = type;
+        this.createTimeStamp = createTimeStamp;
+        this.metodoPagamento = metodoPagamento;
+    }
 
     public Instant getCreateTimeStamp() {
         return createTimeStamp;
@@ -74,11 +98,11 @@ public class Transacao {
         this.price = price;
     }
 
-    public String getCategory() {
+    public Categoria getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Categoria category) {
         this.category = category;
     }
 
@@ -98,7 +122,7 @@ public class Transacao {
         dto.setPrice(transacao.getPrice());
         dto.setCategory(transacao.getCategory());
         dto.setType(transacao.getType());
-        dto.setCreateTimeStamp(transacao.getCreateTimeStamp());
+        dto.setCreateTimeStamp(transacao.getCreateTimeStamp().toString().substring(0,10));
         dto.setUser(transacao.getUser().getId());
 
         return dto;

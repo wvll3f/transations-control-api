@@ -43,6 +43,11 @@ public class CategoriaPreCreate implements CommandLineRunner {
             var agua = new Categoria();
             agua.setName("Agua");
             categoriaRepository.save(agua);
+
+            var salario = new Categoria();
+            salario.setName("Salario");
+            categoriaRepository.save(salario);
+
         } else {
             System.out.println("Categorias já criadas");
         }

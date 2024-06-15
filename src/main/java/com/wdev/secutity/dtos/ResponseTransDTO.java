@@ -7,29 +7,22 @@ import com.wdev.secutity.enums.TipoTransacao;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class CreateTransDTO {
+public class ResponseTransDTO {
 
     private Long id;
     private String description;
     private BigDecimal price;
-    private String category;
+    private Categoria category;
     private TipoTransacao type;
     private String createTimeStamp;
-    private String metodoPagamento;
+    private MetodosPagamento metodoPagamento;
     private UUID user;
 
-    public CreateTransDTO() {
+    public ResponseTransDTO() {
 
     }
 
-    public CreateTransDTO(Long id,
-                          String description,
-                          BigDecimal price,
-                          String category,
-                          TipoTransacao type,
-                          String createTimeStamp,
-                          UUID user,
-                          String metodoPagamento) {
+    public ResponseTransDTO(Long id, String description, BigDecimal price, Categoria category, TipoTransacao type, String createTimeStamp, UUID user, MetodosPagamento metodoPagamento) {
         this.id = id;
         this.description = description;
         this.price = price;
@@ -88,16 +81,16 @@ public class CreateTransDTO {
         this.user = user;
     }
 
-    public String getCategory() {
+    public Categoria getCategory() {
         return category;
     }
-    public void setCategory(String category) {
+    public void setCategory(Categoria category) {
         this.category = category;
     }
-    public String getMetodoPagamento() {
+    public MetodosPagamento getMetodoPagamento() {
         return metodoPagamento;
     }
-    public void setMetodoPagamento(String metodoPagamento) {
+    public void setMetodoPagamento(MetodosPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
     }
 }

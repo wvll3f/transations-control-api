@@ -1,4 +1,4 @@
 package com.wdev.secutity.dtos;
 
-public record CreateUserDTO(String username, String password) {
+public record CreateUserDTO(String name,String username, String password) {
 }

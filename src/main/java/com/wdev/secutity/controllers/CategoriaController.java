@@ -28,7 +28,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/categoria")
-    public ResponseEntity<List<Categoria>> listarUsers(JwtAuthenticationToken token){
+    public ResponseEntity<List<Categoria>> listarCategorias(JwtAuthenticationToken token){
         return categoriaService.listarCategorias(token);
     }
 

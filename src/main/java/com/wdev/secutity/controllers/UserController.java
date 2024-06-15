@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("/users")
+    @PostMapping("/register")
     public ResponseEntity<Void> NewUser(@RequestBody CreateUserDTO dto) {
         return userService.NewUser(dto);
     }

@@ -14,4 +14,27 @@ public class MetodosPagamento {
 
     @NotNull
     private String name;
+
+    public MetodosPagamento() {
+    }
+
+    public MetodosPagamento(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public @NotNull String getName() {
+        return name;
+    }
+
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
 }

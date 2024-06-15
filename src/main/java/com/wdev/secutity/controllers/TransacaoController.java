@@ -1,18 +1,13 @@
 package com.wdev.secutity.controllers;
 
 import com.wdev.secutity.dtos.CreateTransDTO;
-import com.wdev.secutity.repositories.TransacaoRepository;
-import com.wdev.secutity.repositories.UserRepository;
 import com.wdev.secutity.services.BalanceService;
 import com.wdev.secutity.services.TransacaoService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
-import java.util.UUID;
 
 
 @RestController
@@ -56,7 +51,6 @@ public class TransacaoController {
     @Transactional
     @DeleteMapping("/trash/{id}")
     public ResponseEntity<Void> deleteTransacao(@PathVariable("id") Long transId, JwtAuthenticationToken token) {
-
         return transacaoService.deleteTransacao(transId, token);
     }
 

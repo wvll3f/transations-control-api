@@ -2,6 +2,7 @@ package com.wdev.secutity.entities;
 
 import com.wdev.secutity.dtos.BalanceDTO;
 import com.wdev.secutity.dtos.CreateTransDTO;
+import com.wdev.secutity.dtos.ResponseTransDTO;
 import com.wdev.secutity.enums.TipoTransacao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -114,13 +115,37 @@ public class Transacao {
         this.type = type;
     }
 
+    public MetodosPagamento getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(MetodosPagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
     public CreateTransDTO modelToDTO(Transacao transacao) {
         var dto = new CreateTransDTO();
 
         dto.setId(transacao.getId());
         dto.setDescription(transacao.getDescription());
         dto.setPrice(transacao.getPrice());
+        dto.setCategory(transacao.getCategory().getName());
+        dto.setMetodoPagamento(transacao.getMetodoPagamento().getName());
+        dto.setType(transacao.getType());
+        dto.setCreateTimeStamp(transacao.getCreateTimeStamp().toString().substring(0,10));
+        dto.setUser(transacao.getUser().getId());
+
+        return dto;
+    }
+
+    public ResponseTransDTO modelToResponseDTO(Transacao transacao) {
+        var dto = new ResponseTransDTO();
+
+        dto.setId(transacao.getId());
+        dto.setDescription(transacao.getDescription());
+        dto.setPrice(transacao.getPrice());
         dto.setCategory(transacao.getCategory());
+        dto.setMetodoPagamento(transacao.getMetodoPagamento());
         dto.setType(transacao.getType());
         dto.setCreateTimeStamp(transacao.getCreateTimeStamp().toString().substring(0,10));
         dto.setUser(transacao.getUser().getId());

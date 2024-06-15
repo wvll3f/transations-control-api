@@ -1,7 +1,10 @@
 package com.wdev.secutity.services;
 
 import com.wdev.secutity.dtos.CreateTransDTO;
+import com.wdev.secutity.dtos.ResponseTransDTO;
 import com.wdev.secutity.entities.Transacao;
+import com.wdev.secutity.repositories.CategoriaRepository;
+import com.wdev.secutity.repositories.MetodosPagamentoRepository;
 import com.wdev.secutity.repositories.TransacaoRepository;
 import com.wdev.secutity.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -21,10 +24,14 @@ public class TransacaoService {
 
     private final TransacaoRepository transacaoRepository;
     private final UserRepository userRepository;
+    private final CategoriaRepository categoriaRepository;
+    private final MetodosPagamentoRepository metodosPagamentoRepository;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, UserRepository userRepository) {
+    public TransacaoService(TransacaoRepository transacaoRepository, UserRepository userRepository, CategoriaRepository categoriaRepository, MetodosPagamentoRepository metodosPagamentoRepository) {
         this.transacaoRepository = transacaoRepository;
         this.userRepository = userRepository;
+        this.categoriaRepository = categoriaRepository;
+        this.metodosPagamentoRepository = metodosPagamentoRepository;
     }
 
     @Transactional
@@ -60,7 +67,8 @@ public class TransacaoService {
             transacao.setDescription(dto.getDescription());
             transacao.setUser(user.get());
             transacao.setPrice(dto.getPrice());
-            transacao.setCategory(dto.getCategory());
+            transacao.setCategory(categoriaRepository.findByName(dto.getCategory()));
+            transacao.setMetodoPagamento(metodosPagamentoRepository.findByName(dto.getMetodoPagamento()));
             transacao.setType(dto.getType());
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -99,7 +107,8 @@ public class TransacaoService {
         transacao.setDescription(dto.getDescription());
         transacao.setUser(user.get());
         transacao.setPrice(dto.getPrice());
-        transacao.setCategory(dto.getCategory());
+        transacao.setCategory(categoriaRepository.findByName(dto.getCategory()));
+        transacao.setMetodoPagamento(metodosPagamentoRepository.findByName(dto.getMetodoPagamento()));
         transacao.setType(dto.getType());
 
         transacaoRepository.save(transacao);

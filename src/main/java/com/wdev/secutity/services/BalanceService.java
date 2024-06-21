@@ -48,4 +48,30 @@ public class BalanceService {
 
     }
 
+    public ResponseEntity<Double> generateInflows(JwtAuthenticationToken token){
+
+        var valoresEntrada = transacaoRepository.findAll()
+                .stream()
+                .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
+                .map(transacao -> transacao.toBalanceDTO(transacao))
+                .filter(balanceDTO -> balanceDTO.getType().getCodigo().equals("E"))
+                .map(balanceDTO -> balanceDTO.getBalance())
+                .collect(Collectors.summingDouble(BigDecimal::doubleValue));
+
+        return ResponseEntity.ok(valoresEntrada);
+    }
+
+    public ResponseEntity<Double> generateOutflows(JwtAuthenticationToken token){
+
+        var valoresSaida = transacaoRepository.findAll()
+                .stream()
+                .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
+                .map(transacao -> transacao.toBalanceDTO(transacao))
+                .filter(balanceDTO -> balanceDTO.getType().getCodigo().equals("S"))
+                .map(balanceDTO -> balanceDTO.getBalance())
+                .collect(Collectors.summingDouble(BigDecimal::doubleValue));
+
+        return ResponseEntity.ok(valoresSaida);
+    }
+
 }

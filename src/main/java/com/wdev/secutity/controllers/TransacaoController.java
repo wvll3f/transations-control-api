@@ -59,4 +59,14 @@ public class TransacaoController {
         return balanceService.generateBalance(token);
     }
 
+    @GetMapping("/inflows")
+    public ResponseEntity<Double>  pegarEntradas(JwtAuthenticationToken token){
+        return balanceService.generateInflows(token);
+    }
+
+    @GetMapping("/outflows")
+    public ResponseEntity<Double>  pegarSaidas(JwtAuthenticationToken token){
+        return balanceService.generateOutflows(token);
+    }
+
 }

@@ -78,6 +78,15 @@ public class TransacaoService {
         return ResponseEntity.ok().build();
     }
 
+    public ResponseEntity<Void> patchTransacao(@RequestBody CreateTransDTO dto,
+                                               JwtAuthenticationToken token,
+                                               @PathVariable("id") Long transId){
+
+        transacaoRepository.
+
+        return ResponseEntity.ok().build();
+    }
+
     @Transactional
     public ResponseEntity<List<CreateTransDTO>> listarTransacoes(JwtAuthenticationToken token) {
 

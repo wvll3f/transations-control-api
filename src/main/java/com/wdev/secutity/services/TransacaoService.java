@@ -7,6 +7,9 @@ import com.wdev.secutity.repositories.CategoriaRepository;
 import com.wdev.secutity.repositories.MetodosPagamentoRepository;
 import com.wdev.secutity.repositories.TransacaoRepository;
 import com.wdev.secutity.repositories.UserRepository;
+import org.apache.coyote.Response;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -75,15 +79,6 @@ public class TransacaoService {
         }
 
         transacaoRepository.save(transacao);
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<Void> patchTransacao(@RequestBody CreateTransDTO dto,
-                                               JwtAuthenticationToken token,
-                                               @PathVariable("id") Long transId){
-
-        transacaoRepository.
-
         return ResponseEntity.ok().build();
     }
 

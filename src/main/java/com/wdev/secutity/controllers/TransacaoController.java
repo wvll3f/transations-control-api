@@ -1,6 +1,7 @@
 package com.wdev.secutity.controllers;
 
 import com.wdev.secutity.dtos.CreateTransDTO;
+import com.wdev.secutity.entities.Transacao;
 import com.wdev.secutity.services.BalanceService;
 import com.wdev.secutity.services.TransacaoService;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class TransacaoController {
     }
 
     @Transactional
-    @PatchMapping("/updatetrans/{id}")
+    @PutMapping("/updatetrans/{id}")
     public ResponseEntity<Void> updateTransacao(@RequestBody CreateTransDTO dto, JwtAuthenticationToken token,
                                                 @PathVariable("id") Long transId) {
 

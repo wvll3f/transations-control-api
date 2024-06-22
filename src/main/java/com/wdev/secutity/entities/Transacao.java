@@ -21,14 +21,12 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
     private BigDecimal price;
 
     @ManyToOne
@@ -39,7 +37,6 @@ public class Transacao {
     @JoinColumn(name = "metodosPagamento_id")
     private MetodosPagamento metodoPagamento;
 
-    @NotNull
     private TipoTransacao type;
 
     @CreationTimestamp

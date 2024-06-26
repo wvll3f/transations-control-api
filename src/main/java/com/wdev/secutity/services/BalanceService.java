@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class BalanceService {
         this.transacaoRepository = transacaoRepository;
     }
 
-    public ResponseEntity<Double> generateBalance(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateBalance(JwtAuthenticationToken token){
 
 
         var valoresEntrada = transacaoRepository.findAll()
@@ -43,12 +44,14 @@ public class BalanceService {
 
         double total = valoresEntrada - valoresSaida;
 
+        DecimalFormat formato = new DecimalFormat("#.##");
+        var totalFormatado = (formato.format(total).replace(",", "."));
 
-        return ResponseEntity.ok(total);
+        return ResponseEntity.ok(totalFormatado);
 
     }
 
-    public ResponseEntity<Double> generateInflows(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateInflows(JwtAuthenticationToken token){
 
         var valoresEntrada = transacaoRepository.findAll()
                 .stream()
@@ -58,10 +61,13 @@ public class BalanceService {
                 .map(balanceDTO -> balanceDTO.getBalance())
                 .collect(Collectors.summingDouble(BigDecimal::doubleValue));
 
-        return ResponseEntity.ok(valoresEntrada);
+        DecimalFormat formato = new DecimalFormat("#.##");
+        var entradaFormatada = (formato.format(valoresEntrada).replace(",", "."));
+
+        return ResponseEntity.ok(entradaFormatada);
     }
 
-    public ResponseEntity<Double> generateOutflows(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateOutflows(JwtAuthenticationToken token){
 
         var valoresSaida = transacaoRepository.findAll()
                 .stream()
@@ -71,7 +77,10 @@ public class BalanceService {
                 .map(balanceDTO -> balanceDTO.getBalance())
                 .collect(Collectors.summingDouble(BigDecimal::doubleValue));
 
-        return ResponseEntity.ok(valoresSaida);
+        DecimalFormat formato = new DecimalFormat("#.##");
+        var saidaFormatada = (formato.format(valoresSaida).replace(",", "."));
+
+        return ResponseEntity.ok(saidaFormatada);
     }
 
 }

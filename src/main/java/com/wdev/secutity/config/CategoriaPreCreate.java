@@ -28,24 +28,24 @@ public class CategoriaPreCreate implements CommandLineRunner {
             mercado.setName("Mercado");
             categoriaRepository.save(mercado);
 
-            var internet = new Categoria();
-            internet.setName("Internet");
-            categoriaRepository.save(internet);
+            var contas = new Categoria();
+            contas.setName("Contas");
+            categoriaRepository.save(contas);
 
             var compras = new Categoria();
             compras.setName("Compras");
             categoriaRepository.save(compras);
 
-            var energia = new Categoria();
-            energia.setName("Energia");
-            categoriaRepository.save(energia);
+            var transporte = new Categoria();
+            transporte.setName("Transporte");
+            categoriaRepository.save(transporte);
 
-            var agua = new Categoria();
-            agua.setName("Agua");
-            categoriaRepository.save(agua);
+            var saude = new Categoria();
+            saude.setName("Saúde");
+            categoriaRepository.save(saude);
 
             var salario = new Categoria();
-            salario.setName("Salario");
+            salario.setName("Salário");
             categoriaRepository.save(salario);
 
         } else {

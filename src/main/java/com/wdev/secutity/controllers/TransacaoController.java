@@ -1,13 +1,14 @@
 package com.wdev.secutity.controllers;
 
 import com.wdev.secutity.dtos.CreateTransDTO;
-import com.wdev.secutity.entities.Transacao;
 import com.wdev.secutity.services.BalanceService;
 import com.wdev.secutity.services.TransacaoService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -68,6 +69,14 @@ public class TransacaoController {
     @GetMapping("/outflows")
     public ResponseEntity<String>  pegarSaidas(JwtAuthenticationToken token){
         return balanceService.generateOutflows(token);
+    }
+
+    @GetMapping("/transacoesdate")
+    public  ResponseEntity<List<CreateTransDTO>> transacoesPorData (JwtAuthenticationToken token,
+                                                                    @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
+                                                                    @RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal){
+
+       return transacaoService.listarTransacoesPorData(token, dataInicial, dataFinal);
     }
 
 }

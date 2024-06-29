@@ -1,10 +1,14 @@
 package com.wdev.secutity.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wdev.secutity.entities.Categoria;
 import com.wdev.secutity.entities.MetodosPagamento;
 import com.wdev.secutity.enums.TipoTransacao;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class CreateTransDTO {
@@ -14,7 +18,8 @@ public class CreateTransDTO {
     private BigDecimal price;
     private String category;
     private TipoTransacao type;
-    private String createTimeStamp;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
     private String metodoPagamento;
     private UUID user;
 
@@ -27,7 +32,7 @@ public class CreateTransDTO {
                           BigDecimal price,
                           String category,
                           TipoTransacao type,
-                          String createTimeStamp,
+                          LocalDate date,
                           UUID user,
                           String metodoPagamento) {
         this.id = id;
@@ -35,18 +40,12 @@ public class CreateTransDTO {
         this.price = price;
         this.category = category;
         this.type = type;
-        this.createTimeStamp = createTimeStamp;
+        this.date = date;
         this.metodoPagamento = metodoPagamento;
         this.user = user;
     }
 
-    public String getCreateTimeStamp() {
-        return createTimeStamp;
-    }
 
-    public void setCreateTimeStamp(String createTimeStamp) {
-        this.createTimeStamp = createTimeStamp;
-    }
 
     public String getDescription() {
         return description;
@@ -99,5 +98,13 @@ public class CreateTransDTO {
     }
     public void setMetodoPagamento(String metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

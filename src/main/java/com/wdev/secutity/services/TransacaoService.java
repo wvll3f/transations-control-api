@@ -1,15 +1,11 @@
 package com.wdev.secutity.services;
 
 import com.wdev.secutity.dtos.CreateTransDTO;
-import com.wdev.secutity.dtos.ResponseTransDTO;
 import com.wdev.secutity.entities.Transacao;
 import com.wdev.secutity.repositories.CategoriaRepository;
 import com.wdev.secutity.repositories.MetodosPagamentoRepository;
 import com.wdev.secutity.repositories.TransacaoRepository;
 import com.wdev.secutity.repositories.UserRepository;
-import org.apache.coyote.Response;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -17,9 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -112,13 +108,13 @@ public class TransacaoService {
         transacao.setUser(user.get());
         transacao.setPrice(dto.getPrice());
         transacao.setCategory(categoriaRepository.findByName(dto.getCategory()));
+        transacao.setDate(dto.getDate());
         transacao.setMetodoPagamento(metodosPagamentoRepository.findByName(dto.getMetodoPagamento()));
         transacao.setType(dto.getType());
 
         transacaoRepository.save(transacao);
         return ResponseEntity.ok().build();
     }
-
 
     @Transactional
     public ResponseEntity<Void> deleteTransacao(@PathVariable("id") Long transId, JwtAuthenticationToken token) {
@@ -134,5 +130,24 @@ public class TransacaoService {
 
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<List<CreateTransDTO>> listarTransacoesPorData(JwtAuthenticationToken token,
+                                                                        LocalDate dataInicial,
+                                                                        LocalDate dataFinal) {
+
+        var user = userRepository.findById(UUID.fromString(token.getName()));
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var list = transacaoRepository.findTransacaoByDateBetween(dataInicial, dataFinal)
+                .stream()
+                .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
+                .map(transacao -> transacao.modelToDTO(transacao)).toList();
+
+        return ResponseEntity.ok(list);
+    }
+
 
 }

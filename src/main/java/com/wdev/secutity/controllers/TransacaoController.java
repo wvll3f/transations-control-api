@@ -57,18 +57,24 @@ public class TransacaoController {
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<String>  pegarBalance(JwtAuthenticationToken token){
-        return balanceService.generateBalance(token);
+    public ResponseEntity<String>  pegarBalance(JwtAuthenticationToken token,
+                                                @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
+                                                @RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal){
+        return balanceService.generateBalance(token, dataInicial, dataFinal);
     }
 
     @GetMapping("/inflows")
-    public ResponseEntity<String>  pegarEntradas(JwtAuthenticationToken token){
-        return balanceService.generateInflows(token);
+    public ResponseEntity<String>  pegarEntradas(JwtAuthenticationToken token,
+                                                 @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
+                                                 @RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal){
+        return balanceService.generateInflows(token, dataInicial, dataFinal);
     }
 
     @GetMapping("/outflows")
-    public ResponseEntity<String>  pegarSaidas(JwtAuthenticationToken token){
-        return balanceService.generateOutflows(token);
+    public ResponseEntity<String>  pegarSaidas(JwtAuthenticationToken token,
+                                               @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
+                                               @RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal){
+        return balanceService.generateOutflows(token, dataInicial, dataFinal);
     }
 
     @GetMapping("/transacoesdate")

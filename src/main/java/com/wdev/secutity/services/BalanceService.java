@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,12 @@ public class BalanceService {
         this.transacaoRepository = transacaoRepository;
     }
 
-    public ResponseEntity<String> generateBalance(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateBalance(JwtAuthenticationToken token,
+                                                  LocalDate dataInicial,
+                                                  LocalDate dataFinal){
 
 
-        var valoresEntrada = transacaoRepository.findAll()
+        var valoresEntrada = transacaoRepository.findTransacaoByDateBetween(dataInicial,dataFinal )
                 .stream()
                 .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
                 .map(transacao -> transacao.toBalanceDTO(transacao))
@@ -34,7 +37,7 @@ public class BalanceService {
                 .map(balanceDTO -> balanceDTO.getBalance())
                 .collect(Collectors.summingDouble(BigDecimal::doubleValue));
 
-        var valoresSaida = transacaoRepository.findAll()
+        var valoresSaida = transacaoRepository.findTransacaoByDateBetween(dataInicial,dataFinal)
                 .stream()
                 .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
                 .map(transacao -> transacao.toBalanceDTO(transacao))
@@ -51,9 +54,11 @@ public class BalanceService {
 
     }
 
-    public ResponseEntity<String> generateInflows(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateInflows(JwtAuthenticationToken token,
+                                                  LocalDate dataInicial,
+                                                  LocalDate dataFinal){
 
-        var valoresEntrada = transacaoRepository.findAll()
+        var valoresEntrada = transacaoRepository.findTransacaoByDateBetween(dataInicial,dataFinal )
                 .stream()
                 .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
                 .map(transacao -> transacao.toBalanceDTO(transacao))
@@ -67,9 +72,11 @@ public class BalanceService {
         return ResponseEntity.ok(entradaFormatada);
     }
 
-    public ResponseEntity<String> generateOutflows(JwtAuthenticationToken token){
+    public ResponseEntity<String> generateOutflows(JwtAuthenticationToken token,
+                                                   LocalDate dataInicial,
+                                                   LocalDate dataFinal){
 
-        var valoresSaida = transacaoRepository.findAll()
+        var valoresSaida = transacaoRepository.findTransacaoByDateBetween(dataInicial,dataFinal)
                 .stream()
                 .filter(transacao -> transacao.getUser().getId().equals(UUID.fromString(token.getName())))
                 .map(transacao -> transacao.toBalanceDTO(transacao))

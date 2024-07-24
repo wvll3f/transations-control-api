@@ -6,7 +6,7 @@ Aplicação fullstack para gerenciar finanças pessoais, tendo a possibilidade d
 
 ## Demonstração
 
-<img src="https://i.imgur.com/KLYRRDe.gif" width="400" height="400" />
+<img src="https://i.imgur.com/KLYRRDe.gif" width="1024" height="576" />
 
 
 ## Stack utilizada

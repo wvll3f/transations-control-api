@@ -17,4 +17,4 @@ Aplicação fullstack para gerenciar finanças pessoais, tendo a possibilidade d
 
 **Banco de dados:** mysql
 
-**infraestrutura:** apache2, docker
+**infraestrutura:**  Ubuntu server 22.04.4 LTS, apache2, docker
